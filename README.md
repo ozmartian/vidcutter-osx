@@ -1,6 +1,6 @@
 ![VidCutter](http://vidcutter.ozmartians.com/vidcutter-banner.png)
 
-[![Build Status](https://travis-ci.org/ozmartian/vidcutter-appimage.svg?branch=master)](https://travis-ci.org/ozmartian/vidcutter-appimage)
+[![Build Status](https://travis-ci.org/ozmartian/vidcutter-osx.svg?branch=master)](https://travis-ci.org/ozmartian/vidcutter-osx)
 
 This repository hosts VidCutter macOS builds from Travis CI of the latest development changes so some releases may be unstable or not even work at all. Care is taken to ensure latest commits do not break the build but this cannot be guaranteed.
 
