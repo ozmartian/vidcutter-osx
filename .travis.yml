@@ -1,0 +1,62 @@
+language: objective-c
+os: osx
+sudo: required
+python: '3.6'
+git:
+  depth: 3
+branches:
+  only:
+  - master
+env:
+  - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
+  - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
+  - global: BUILD_VERSION="5.5.0"
+
+before_install:
+- brew update
+- brew install aria2 wget p7zip python3 mpv
+- brew link --overwrite python3
+- pip3 install -U pip
+- pip3 install pyqt5 pyinstaller
+
+install:
+- wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
+- tar -xvf ./vidcutter.tar.gz
+- mv vidcutter-${BUILD_VERSION}/* .
+- rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
+- python3 setup.py build_ext -i
+- mkdir -p ./temp && cd ./temp
+- wget ${FFMPEG}
+- 7z e "${FFMPEG##*/}" ffmpeg-latest-macos64-shared\bin
+- rm -f ffplay ffserver
+- mv * ../bin
+- wget ${MEDIAINFO}
+- 7z e "${MEDIAINFO##*/}" MediaInfo/mediainfo.pkg
+- pkgutil --expand mediainfo.pkg /tmp/mediainfo.unpkg
+- cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
+- mv usr/local/bin/mediainfo ../bin
+
+script:
+- cd _build/pyinstaller
+- ./build.pyinstaller.osx
+- cd dist
+- 7z a VidCutter-${BUILD_VERSION}-macOS.7z VidCutter.app
+- mv VidCutter-${BUILD_VERSION}-macOS.7z "${TRAVIS_BUILD_DIR}"
+- echo "Done!"
+
+notifications:
+  email: false
+
+before_deploy:
+  - git config --local user.name "Pete Alexandrou"
+  - git config --local user.email "pete@ozmartians.com"
+  - git tag -f "5.5.0"
+deploy:
+  provider: releases
+  api_key:
+    secure: aa1y8Qks56bt7YGJupHEufrgTJcc4YmS23UXbVTTqLy8ZMNUe4JL6o5PJGZt07lFg2C1GriaWLscOwubHBmUNQHYFmFenIi+XYB2bHfx+IT4pmCrzRenZacW50DNtMtdGUT4ZAm6HKNKs5VmLF2sQP1Gnb0cokJHeyuym/xa3OA7IfQMjLRiMaR3Kfj95Hdxv6UUPDRL18CVrCe7GSgRo0PJerPQEATVwQxvz6QXxW/y9mujW9D7wzBMN4CiFzZjDDRFC0xq55IPb3Bg54mqKVUvNBxxf4Uu8NnWYxThFPy5LRbFT2Cnjqb7wtr9hzgfU8Y110xUQLJC/Xf6xwRsoVxC9LH41MRvLkucdbprYR+rqwwSO5bCxn6RoUCrXNKwfFBkwjhvt1+cC/GSsOkkMumfIeWuuOHNXV4A7uSatvVTYe3RkwmPPaj17aJ0lizBLC2p+1IQQp3jCInGRHjnrxsTGjuUrWGk9KKqrtqBQw8/yZ5sl3nlYQq33ELrAbb8QtnGUymxhIlzhd5FZ/JGyT88UEP+0NfwsTzl11PX1BdVDRdSSh8QW7TwSejctv8XNVVcb5aTyAw/IA36GnhuJuKVBOlwg6i9rW6oIRXgnGKMJsqP2PMWkNRfZlRToDgoYnoziYhunIQmfm+/fzTHhT/vIyDFemtF6GN64IlsgRM=
+  file: "${TRAVIS_BUILD_DIR}/VidCutter-${BUILD_VERSION}-macOS.7z"
+  overwrite: true
+  skip_cleanup: true
+  on:
+    repo: ozmartian/vidcutter-osx
