@@ -9,18 +9,15 @@ branches:
   - master
 env:
   global:
-    - BUILD_VERSION="5.5.0"
-    - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
-    - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
-
+  - BUILD_VERSION="5.5.0"
+  - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
+  - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
 before_install:
-#- brew update
 - brew install aria2 p7zip python3 mpv
 - brew link --overwrite python3
 - pip3 install -U pip
 - pip3 install pyqt5 pyinstaller
 - npm install -g appdmg
-
 install:
 - wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
 - tar -xvf ./vidcutter.tar.gz
@@ -34,24 +31,18 @@ install:
 - rm -f ffplay ffserver
 - mv * ../bin
 - wget ${MEDIAINFO}
-#- 7z e "${MEDIAINFO##*/}" MediaInfo/mediainfo.pkg
 - mkdir -p /tmp/.mnt
 - yes Y | hdiutil attach "${MEDIAINFO##*/}" -mountpoint "/tmp/.mnt" -nobrowse
-#- cp /tmp/.mnt/MediaInfo/mediainfo.pkg .
 - pkgutil --expand /tmp/.mnt/mediainfo.pkg /tmp/mediainfo.unpkg
 - cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
 - mv usr/local/bin/mediainfo ../bin
 - cd ..
-
 script:
 - cd _build/pyinstaller
-- ./build.pyinstaller.osx
+- "./build.pyinstaller.osx"
 - appdmg dmg.spec.json VidCutter-${BUILD_VERSION}-macOS.dmg
-#- cd dist
-#- 7z a VidCutter-${BUILD_VERSION}-macOS.7z VidCutter.app
 - mv VidCutter-${BUILD_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
 - echo "Done!"
-
 notifications:
   email: false
 
@@ -62,7 +53,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: aa1y8Qks56bt7YGJupHEufrgTJcc4YmS23UXbVTTqLy8ZMNUe4JL6o5PJGZt07lFg2C1GriaWLscOwubHBmUNQHYFmFenIi+XYB2bHfx+IT4pmCrzRenZacW50DNtMtdGUT4ZAm6HKNKs5VmLF2sQP1Gnb0cokJHeyuym/xa3OA7IfQMjLRiMaR3Kfj95Hdxv6UUPDRL18CVrCe7GSgRo0PJerPQEATVwQxvz6QXxW/y9mujW9D7wzBMN4CiFzZjDDRFC0xq55IPb3Bg54mqKVUvNBxxf4Uu8NnWYxThFPy5LRbFT2Cnjqb7wtr9hzgfU8Y110xUQLJC/Xf6xwRsoVxC9LH41MRvLkucdbprYR+rqwwSO5bCxn6RoUCrXNKwfFBkwjhvt1+cC/GSsOkkMumfIeWuuOHNXV4A7uSatvVTYe3RkwmPPaj17aJ0lizBLC2p+1IQQp3jCInGRHjnrxsTGjuUrWGk9KKqrtqBQw8/yZ5sl3nlYQq33ELrAbb8QtnGUymxhIlzhd5FZ/JGyT88UEP+0NfwsTzl11PX1BdVDRdSSh8QW7TwSejctv8XNVVcb5aTyAw/IA36GnhuJuKVBOlwg6i9rW6oIRXgnGKMJsqP2PMWkNRfZlRToDgoYnoziYhunIQmfm+/fzTHhT/vIyDFemtF6GN64IlsgRM=
+    secure: uIOb3ThqkTLJ9LZ5mUpL+0CFqmQEyON1gCbr88jOaG1oht8kDyrQSatgQbfeRFJ39nmPVRRPauLZ1ojIhHS2JdGB1u1lteeyOG8NNxXoV3eSGWDpTVTLiS1GkdGx64Z5gEBna4JUh3QYDO12F63KQp0myXOB7F3qco5JdvIxdYi3kIBSeQYFUWvja2m9Dqh2Mms9YfjO8P+Sl+DZ64fjPccI646/+6F+JJDf8OnUCa0qR/t8xFAssaXs9WO+af5zr6zigqE1NkpyLuSLvO4/CY/Ca3TaqOR4Miqvb2Fib9qu3hWsHUTXU/ZTxBvCB5cs+RsAiySSiY9ZHaAU6Ohq9II09yRgDMh8USxyLXdA8886AbQqcfoAWhJYCBbgd2/nVToqxsKMFZRS3s9J9JA6biZ8IJnawbNWhWCuo1bUkrD7Se2hzMs4CQZu2nyqoPLVhFofZTR9fQciDKHfoaxaoreEyLQ9StjyWwipdhTfFms9BCGoFyiTavU48db4OApdJidBuyyw4baB0qreCPSPxtbVgAHS2hakIGIV/NMagNARGh/vpg6V8aHCEso+RX+bW+tGF91xnnOpBfUR77s65r++5p6hpPL9U2ptUp9F/CfCdrhtzT1iqVGv5te0t/bkwRMgn0IXH72PDHDXyaYGAZ3c1fLZjImoMmeC3ay5sd8=
   file: "${TRAVIS_BUILD_DIR}/VidCutter-${BUILD_VERSION}-macOS.dmg"
   overwrite: true
   skip_cleanup: true
