@@ -8,9 +8,10 @@ branches:
   only:
   - master
 env:
-  - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
-  - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
-  - global: BUILD_VERSION="5.5.0"
+  global:
+    - BUILD_VERSION="5.5.0"
+    - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
+    - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
 
 before_install:
 - brew update
