@@ -27,9 +27,9 @@ install:
 - mkdir -p bin
 - mkdir -p ./temp && cd ./temp
 - wget ${FFMPEG}
-- 7z e "${FFMPEG##*/}" ffmpeg-latest-macos64-shared\bin
-- rm -f ffplay ffserver
-- mv * ../bin
+- unzip "${FFMPEG##*/}" ffmpeg-latest-macos64-shared/bin/*
+- rm -f ffmpeg-latest-macos64-shared/bin/ffplay ffmpeg-latest-macos64-shared/bin/ffserver
+- mv ffmpeg-latest-macos64-shared/bin/* ../bin/
 - wget ${MEDIAINFO}
 - mkdir -p /tmp/.mnt
 - yes Y | hdiutil attach "${MEDIAINFO##*/}" -mountpoint "/tmp/.mnt" -nobrowse
