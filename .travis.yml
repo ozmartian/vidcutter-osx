@@ -14,11 +14,12 @@ env:
     - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
 
 before_install:
-- brew update
-- brew install aria2 wget p7zip python3 mpv
+#- brew update
+- brew install aria2 p7zip python3 mpv npm
 - brew link --overwrite python3
 - pip3 install -U pip
 - pip3 install pyqt5 pyinstaller
+- npm install -g appdmg
 
 install:
 - wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
@@ -40,9 +41,10 @@ install:
 script:
 - cd _build/pyinstaller
 - ./build.pyinstaller.osx
-- cd dist
-- 7z a VidCutter-${BUILD_VERSION}-macOS.7z VidCutter.app
-- mv VidCutter-${BUILD_VERSION}-macOS.7z "${TRAVIS_BUILD_DIR}"
+- appdmg dmg.spec.json VidCutter-${BUILD_VERSION}-macOS.dmg
+#- cd dist
+#- 7z a VidCutter-${BUILD_VERSION}-macOS.7z VidCutter.app
+- mv VidCutter-${BUILD_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
 - echo "Done!"
 
 notifications:
@@ -56,7 +58,7 @@ deploy:
   provider: releases
   api_key:
     secure: aa1y8Qks56bt7YGJupHEufrgTJcc4YmS23UXbVTTqLy8ZMNUe4JL6o5PJGZt07lFg2C1GriaWLscOwubHBmUNQHYFmFenIi+XYB2bHfx+IT4pmCrzRenZacW50DNtMtdGUT4ZAm6HKNKs5VmLF2sQP1Gnb0cokJHeyuym/xa3OA7IfQMjLRiMaR3Kfj95Hdxv6UUPDRL18CVrCe7GSgRo0PJerPQEATVwQxvz6QXxW/y9mujW9D7wzBMN4CiFzZjDDRFC0xq55IPb3Bg54mqKVUvNBxxf4Uu8NnWYxThFPy5LRbFT2Cnjqb7wtr9hzgfU8Y110xUQLJC/Xf6xwRsoVxC9LH41MRvLkucdbprYR+rqwwSO5bCxn6RoUCrXNKwfFBkwjhvt1+cC/GSsOkkMumfIeWuuOHNXV4A7uSatvVTYe3RkwmPPaj17aJ0lizBLC2p+1IQQp3jCInGRHjnrxsTGjuUrWGk9KKqrtqBQw8/yZ5sl3nlYQq33ELrAbb8QtnGUymxhIlzhd5FZ/JGyT88UEP+0NfwsTzl11PX1BdVDRdSSh8QW7TwSejctv8XNVVcb5aTyAw/IA36GnhuJuKVBOlwg6i9rW6oIRXgnGKMJsqP2PMWkNRfZlRToDgoYnoziYhunIQmfm+/fzTHhT/vIyDFemtF6GN64IlsgRM=
-  file: "${TRAVIS_BUILD_DIR}/VidCutter-${BUILD_VERSION}-macOS.7z"
+  file: "${TRAVIS_BUILD_DIR}/VidCutter-${BUILD_VERSION}-macOS.dmg"
   overwrite: true
   skip_cleanup: true
   on:
