@@ -15,7 +15,7 @@ env:
 
 before_install:
 #- brew update
-- brew install aria2 p7zip python3 mpv npm
+- brew install aria2 p7zip python3 mpv
 - brew link --overwrite python3
 - pip3 install -U pip
 - pip3 install pyqt5 pyinstaller
@@ -27,16 +27,21 @@ install:
 - mv vidcutter-${BUILD_VERSION}/* .
 - rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
 - python3 setup.py build_ext -i
+- mkdir -p bin
 - mkdir -p ./temp && cd ./temp
 - wget ${FFMPEG}
 - 7z e "${FFMPEG##*/}" ffmpeg-latest-macos64-shared\bin
 - rm -f ffplay ffserver
 - mv * ../bin
 - wget ${MEDIAINFO}
-- 7z e "${MEDIAINFO##*/}" MediaInfo/mediainfo.pkg
-- pkgutil --expand mediainfo.pkg /tmp/mediainfo.unpkg
+#- 7z e "${MEDIAINFO##*/}" MediaInfo/mediainfo.pkg
+- mkdir -p /tmp/.mnt
+- yes Y | hdiutil attach "${MEDIAINFO##*/}" -mountpoint "/tmp/.mnt" -nobrowse
+#- cp /tmp/.mnt/MediaInfo/mediainfo.pkg .
+- pkgutil --expand /tmp/.mnt/mediainfo.pkg /tmp/mediainfo.unpkg
 - cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
 - mv usr/local/bin/mediainfo ../bin
+- cd ..
 
 script:
 - cd _build/pyinstaller
