@@ -7,15 +7,19 @@ git:
 branches:
   only:
   - master
+
 env:
   global:
   - BUILD_VERSION="5.5.0"
   - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
   - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
+  - secure: Bp08X7e59JRd3Gm5O2h0LCy80MIrDxDZhXyLegQKz8tNNddGrT79IE/YrsVCz092i+iANp+XK2DK/8sEsZcFKtHe6LTAK1y2IlOJQCDWewV8YDAzWeb0Hvr/uOMPZZailFVk3UvPAdLwm/N1/1F2nigAhfYswxTwYHHQ5mk6MlRZVN6O65fALQq9TIDI+O6sIam2K0LfX/mhFkUPvqHRlrfJj5Uijrm8GP9GTDm4ioiuh6ebPmwQ07OZ4B1HJ5Wbwxm5ff1+tCqSDcwsEZonxqgjYb66BCTa44p3C6DYd/bPpepvub3p3I5AugNo4iYzHSLJDmZNhPTpToC442eK58QKXj+GzbeVAOh2+w/YwPqQCkvQPT40UhAEOy4tiYdyatH2bt1hs0QbNxPBYmWvhFceEqtfW67pF08OyJ46CM28uJq3V6Q8C+TegpwLgi7rNaVKD2mU6ylyr855GXlxJfjILNkEq1Dfvm5XsFvUHPc0fPTEbteREgn+Qw6rtctTJ//rLdPcvxOXUfiCWM98wvMFqAA9X/TNHXK0IOlLA/K6HjhzjikXgW/xUcQdYj59AUlUlPAsIkUl6nXoJ9Hj9McohfdR1YTJEXBeHQpoyhmbA9IfBRulxu7+anuVNlF00Xr/UUi8IlTCs00rMLs3dd2DTboN/SV/0TvDH0S+J7M=
+
 before_install:
 - brew install aria2 python3 mpv
 - pip3 install -U pip pyqt5 pyinstaller
 - npm install -g appdmg
+
 install:
 - wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
 - tar -xvf ./vidcutter.tar.gz
@@ -35,21 +39,25 @@ install:
 - cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
 - mv usr/local/bin/mediainfo ../bin
 - cd ..
+
 script:
 - cd _build/pyinstaller
 - "./build.pyinstaller.osx"
 - appdmg dmg.spec.json VidCutter-${BUILD_VERSION}-macOS.dmg
 - mv VidCutter-${BUILD_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
 - echo "Done!"
+
 notifications:
   email: false
 
 before_deploy:
-  - git config --local user.name "Pete Alexandrou"
-  - git config --local user.email "pete@ozmartians.com"
-  - git tag -d "5.5.0"
-  - git push origin :refs/tags/5.5.0
-  - git tag -am v5.5.0 5.5.0
+- git config --local user.name "Pete Alexandrou"
+- git config --local user.email "pete@ozmartians.com"
+- git tag -d ${BUILD_VERSION}
+- git remote set-url origin https://ozmartian:${GITHUB_TOKEN}@github.com/ozmartian/vidcutter-osx.git
+- git push origin :refs/tags/${BUILD_VERSION}
+- git tag -am v${BUILD_VERSION} ${BUILD_VERSION}
+
 deploy:
   provider: releases
   api_key:
