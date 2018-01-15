@@ -13,10 +13,8 @@ env:
   - FFMPEG="https://ffmpeg.zeranoe.com/builds/macos64/shared/ffmpeg-latest-macos64-shared.zip"
   - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/17.12/MediaInfo_CLI_17.12_Mac.dmg"
 before_install:
-- brew install aria2 p7zip python3 mpv
-- brew link --overwrite python3
-- pip3 install -U pip
-- pip3 install pyqt5 pyinstaller
+- brew install aria2 python3 mpv
+- pip3 install -U pip pyqt5 pyinstaller
 - npm install -g appdmg
 install:
 - wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
@@ -49,7 +47,9 @@ notifications:
 before_deploy:
   - git config --local user.name "Pete Alexandrou"
   - git config --local user.email "pete@ozmartians.com"
-  - git tag -f "5.5.0"
+  - git tag -d "5.5.0"
+  - git push origin :refs/tags/5.5.0
+  - git tag -am v5.5.0 5.5.0
 deploy:
   provider: releases
   api_key:
