@@ -17,7 +17,7 @@ env:
 
 before_install:
 - brew update
-- brew install aria2 python3 mpv
+- brew install aria2 mpv
 - python3 -m pip install -U pip
 - python3 -m pip install PyQt5 pyinstaller
 - npm install -g appdmg
