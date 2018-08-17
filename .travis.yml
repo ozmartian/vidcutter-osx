@@ -19,7 +19,7 @@ env:
 before_install:
 - brew install python3 aria2 mpv
 - sudo python3 -m pip install -U pip
-- python3 -m pip install PyQt5 pyinstaller
+- python3 -m pip install PyQt5==5.10.1 pyinstaller
 - npm install -g appdmg
 
 install:
