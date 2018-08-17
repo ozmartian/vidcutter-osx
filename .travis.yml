@@ -55,7 +55,7 @@ notifications:
 before_deploy:
 - git config --local user.name "Pete Alexandrou"
 - git config --local user.email "pete@ozmartians.com"
-- git tag -d ${BUILD_VERSION}
+- git tag -d ${BUILD_VERSION} || :
 - git remote set-url origin https://ozmartian:${GITHUB_TOKEN}@github.com/ozmartian/vidcutter-osx.git
 - git push origin :refs/tags/${BUILD_VERSION}
 - git tag -am v${BUILD_VERSION} ${BUILD_VERSION}
