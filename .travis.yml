@@ -58,7 +58,7 @@ before_deploy:
 # - git tag -d ${BUILD_VERSION} || true
 - git remote set-url origin https://ozmartian:${GITHUB_TOKEN}@github.com/ozmartian/vidcutter-osx.git
 - git push origin :refs/tags/${BUILD_VERSION}
-- git tag -am -f v${BUILD_VERSION} ${BUILD_VERSION}
+- git tag -f -am v${BUILD_VERSION} ${BUILD_VERSION}
 
 deploy:
   provider: releases
