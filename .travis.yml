@@ -30,7 +30,6 @@ install:
 - rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
 - python3 setup.py build_ext -i
 # - python3 setup.py install
-- mkdir -p vidcutter/libs
 - mkdir -p bin
 - mkdir -p temp && cd temp
 - wget ${FFMPEG}
@@ -48,6 +47,7 @@ install:
 - cd ..
 
 script:
+- mkdir -p vidcutter/libs
 - cd _build/pyinstaller
 - "./build.pyinstaller.osx"
 - appdmg dmg.spec.json VidCutter-${RELEASE_VERSION}-macOS.dmg
