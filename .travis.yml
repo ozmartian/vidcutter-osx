@@ -29,6 +29,7 @@ install:
 - mv vidcutter-${BUILD_VERSION}/* .
 - rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
 - python3 setup.py build_ext -i
+- python3 setup.py install
 - mkdir -p bin
 - mkdir -p temp && cd temp
 - wget ${FFMPEG}
