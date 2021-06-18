@@ -60,7 +60,7 @@ before_deploy:
 - git config --local user.name "Pete Alexandrou"
 - git config --local user.email "pete@ozmartians.com"
 # - git tag -d ${BUILD_VERSION} || true
-- git remote set-url origin https://ozmartian:${GITHUB_TOKEN}@github.com/ozmartian/vidcutter-osx.git
+- git remote set-url origin https://ozmartian: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@github.com/ozmartian/vidcutter-osx.git
 - git push origin :refs/tags/${RELEASE_VERSION}
 - git tag -f -am v${RELEASE_VERSION} ${RELEASE_VERSION}
 
