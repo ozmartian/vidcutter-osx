@@ -12,7 +12,7 @@ branches:
 env:
   global:
   - BUILD_VERSION="6.0.5.1"
-  - FFMPEG="https://evermeet.cx/pub/ffmpeg/ffmpeg-4.4.zip"
+  # - FFMPEG="https://evermeet.cx/pub/ffmpeg/ffmpeg-4.4.zip"
   - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/21.03/MediaInfo_CLI_21.03_Mac11.dmg"
   - secure: Bp08X7e59JRd3Gm5O2h0LCy80MIrDxDZhXyLegQKz8tNNddGrT79IE/YrsVCz092i+iANp+XK2DK/8sEsZcFKtHe6LTAK1y2IlOJQCDWewV8YDAzWeb0Hvr/uOMPZZailFVk3UvPAdLwm/N1/1F2nigAhfYswxTwYHHQ5mk6MlRZVN6O65fALQq9TIDI+O6sIam2K0LfX/mhFkUPvqHRlrfJj5Uijrm8GP9GTDm4ioiuh6ebPmwQ07OZ4B1HJ5Wbwxm5ff1+tCqSDcwsEZonxqgjYb66BCTa44p3C6DYd/bPpepvub3p3I5AugNo4iYzHSLJDmZNhPTpToC442eK58QKXj+GzbeVAOh2+w/YwPqQCkvQPT40UhAEOy4tiYdyatH2bt1hs0QbNxPBYmWvhFceEqtfW67pF08OyJ46CM28uJq3V6Q8C+TegpwLgi7rNaVKD2mU6ylyr855GXlxJfjILNkEq1Dfvm5XsFvUHPc0fPTEbteREgn+Qw6rtctTJ//rLdPcvxOXUfiCWM98wvMFqAA9X/TNHXK0IOlLA/K6HjhzjikXgW/xUcQdYj59AUlUlPAsIkUl6nXoJ9Hj9McohfdR1YTJEXBeHQpoyhmbA9IfBRulxu7+anuVNlF00Xr/UUi8IlTCs00rMLs3dd2DTboN/SV/0TvDH0S+J7M=
 
@@ -30,10 +30,10 @@ install:
 - python3 setup.py build_ext -i
 - mkdir -p bin
 - mkdir -p temp && cd temp
-- wget ${FFMPEG}
-- unzip "${FFMPEG##*/}" ffmpeg/bin/*
+# - wget ${FFMPEG}
+# - unzip "${FFMPEG##*/}" ffmpeg/bin/*
 # - rm -f ffmpeg-4.0.2-macos64-shared/bin/ffplay ffmpeg-4.0.2-macos64-shared/bin/ffserver
-- mv ffmpeg/bin/* ../bin/
+# - mv ffmpeg/bin/* ../bin/
 - wget ${MEDIAINFO}
 - mkdir -p /tmp/.mnt
 - yes Y | hdiutil attach "${MEDIAINFO##*/}" -mountpoint "/tmp/.mnt" -nobrowse
