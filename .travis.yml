@@ -26,12 +26,10 @@ before_install:
 install:
 - wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
 - tar -xvf ./vidcutter.tar.gz
-# - mv vidcutter-${BUILD_VERSION}/* .
-- rm -f ./vidcutter.tar.gz
-- cd vidcutter-${BUILD_VERSION}
-# - rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
-- python3 setup.py build_ext -i
-# - python3 setup.py install
+- mv vidcutter-${BUILD_VERSION}/* .
+- rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
+# - python3 setup.py build_ext -i
+- python3 -m pip install .
 - mkdir -p bin
 - mkdir -p temp && cd temp
 - wget ${FFMPEG}
