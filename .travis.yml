@@ -1,8 +1,7 @@
 language: objective-c
 os: osx
-osx_image: xcode11.6
-sudo: required
-python: '3.8'
+osx_image: xcode12.5
+python: '3.9'
 git:
   depth: 3
 branches:
@@ -19,8 +18,8 @@ env:
   - secure: Bp08X7e59JRd3Gm5O2h0LCy80MIrDxDZhXyLegQKz8tNNddGrT79IE/YrsVCz092i+iANp+XK2DK/8sEsZcFKtHe6LTAK1y2IlOJQCDWewV8YDAzWeb0Hvr/uOMPZZailFVk3UvPAdLwm/N1/1F2nigAhfYswxTwYHHQ5mk6MlRZVN6O65fALQq9TIDI+O6sIam2K0LfX/mhFkUPvqHRlrfJj5Uijrm8GP9GTDm4ioiuh6ebPmwQ07OZ4B1HJ5Wbwxm5ff1+tCqSDcwsEZonxqgjYb66BCTa44p3C6DYd/bPpepvub3p3I5AugNo4iYzHSLJDmZNhPTpToC442eK58QKXj+GzbeVAOh2+w/YwPqQCkvQPT40UhAEOy4tiYdyatH2bt1hs0QbNxPBYmWvhFceEqtfW67pF08OyJ46CM28uJq3V6Q8C+TegpwLgi7rNaVKD2mU6ylyr855GXlxJfjILNkEq1Dfvm5XsFvUHPc0fPTEbteREgn+Qw6rtctTJ//rLdPcvxOXUfiCWM98wvMFqAA9X/TNHXK0IOlLA/K6HjhzjikXgW/xUcQdYj59AUlUlPAsIkUl6nXoJ9Hj9McohfdR1YTJEXBeHQpoyhmbA9IfBRulxu7+anuVNlF00Xr/UUi8IlTCs00rMLs3dd2DTboN/SV/0TvDH0S+J7M=
 
 before_install:
-- brew install python@3.8 mpv
-- sudo python3 -m pip install -U pip
+- brew install mpv
+- python3 -m pip install -U pip
 - python3 -m pip install pyinstaller pyopengl PyQt5
 - npm install -g appdmg
 
