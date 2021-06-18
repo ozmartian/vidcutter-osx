@@ -1,7 +1,7 @@
 language: objective-c
 os: osx
-osx_image: xcode12.5
-python: '3.9'
+# osx_image: xcode12.5
+# python: '3.9'
 git:
   depth: 3
 branches:
@@ -10,8 +10,8 @@ branches:
 
 env:
   global:
-  # - BUILD_VERSION="6.0.5.1"
   - BUILD_VERSION="master"
+  - RELEASE_VERSION="6.0.5.1"
   - FFMPEG="https://evermeet.cx/ffmpeg/ffmpeg-4.4.zip"
   - FFPROBE="https://evermeet.cx/ffmpeg/ffprobe-4.4.zip"
   - MEDIAINFO="https://mediaarea.net/download/binary/mediainfo/21.03/MediaInfo_CLI_21.03_Mac11.dmg"
@@ -48,8 +48,8 @@ install:
 script:
 - cd _build/pyinstaller
 - "./build.pyinstaller.osx"
-- appdmg dmg.spec.json VidCutter-${BUILD_VERSION}-macOS.dmg
-- mv VidCutter-${BUILD_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
+- appdmg dmg.spec.json VidCutter-${RELEASE_VERSION}-macOS.dmg
+- mv VidCutter-${RELEASE_VERSION}-macOS.dmg "${TRAVIS_BUILD_DIR}"
 - echo "Done!"
 
 notifications:
@@ -60,14 +60,14 @@ before_deploy:
 - git config --local user.email "pete@ozmartians.com"
 # - git tag -d ${BUILD_VERSION} || true
 - git remote set-url origin https://ozmartian:${GITHUB_TOKEN}@github.com/ozmartian/vidcutter-osx.git
-- git push origin :refs/tags/${BUILD_VERSION}
-- git tag -f -am v${BUILD_VERSION} ${BUILD_VERSION}
+- git push origin :refs/tags/${RELEASE_VERSION}
+- git tag -f -am v${RELEASE_VERSION} ${RELEASE_VERSION}
 
 deploy:
   provider: releases
   token:
     secure: uIOb3ThqkTLJ9LZ5mUpL+0CFqmQEyON1gCbr88jOaG1oht8kDyrQSatgQbfeRFJ39nmPVRRPauLZ1ojIhHS2JdGB1u1lteeyOG8NNxXoV3eSGWDpTVTLiS1GkdGx64Z5gEBna4JUh3QYDO12F63KQp0myXOB7F3qco5JdvIxdYi3kIBSeQYFUWvja2m9Dqh2Mms9YfjO8P+Sl+DZ64fjPccI646/+6F+JJDf8OnUCa0qR/t8xFAssaXs9WO+af5zr6zigqE1NkpyLuSLvO4/CY/Ca3TaqOR4Miqvb2Fib9qu3hWsHUTXU/ZTxBvCB5cs+RsAiySSiY9ZHaAU6Ohq9II09yRgDMh8USxyLXdA8886AbQqcfoAWhJYCBbgd2/nVToqxsKMFZRS3s9J9JA6biZ8IJnawbNWhWCuo1bUkrD7Se2hzMs4CQZu2nyqoPLVhFofZTR9fQciDKHfoaxaoreEyLQ9StjyWwipdhTfFms9BCGoFyiTavU48db4OApdJidBuyyw4baB0qreCPSPxtbVgAHS2hakIGIV/NMagNARGh/vpg6V8aHCEso+RX+bW+tGF91xnnOpBfUR77s65r++5p6hpPL9U2ptUp9F/CfCdrhtzT1iqVGv5te0t/bkwRMgn0IXH72PDHDXyaYGAZ3c1fLZjImoMmeC3ay5sd8=
-  file: "${TRAVIS_BUILD_DIR}/VidCutter-${BUILD_VERSION}-macOS.dmg"
+  file: "${TRAVIS_BUILD_DIR}/VidCutter-${RELEASE_VERSION}-macOS.dmg"
   overwrite: true
   # skip_cleanup: true
   on:
