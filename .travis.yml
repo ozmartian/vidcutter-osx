@@ -2,7 +2,7 @@ language: objective-c
 os: osx
 osx_image: xcode12.5
 sudo: required
-python: '3.9'
+python: '3.8'
 git:
   depth: 3
 branches:
@@ -30,10 +30,10 @@ install:
 - python3 setup.py build_ext -i
 - mkdir -p bin
 - mkdir -p temp && cd temp
-# - wget ${FFMPEG}
-# - unzip "${FFMPEG##*/}" ffmpeg-4.0.2-macos64-shared/bin/*
+- wget ${FFMPEG}
+- unzip "${FFMPEG##*/}" ffmpeg/bin/*
 # - rm -f ffmpeg-4.0.2-macos64-shared/bin/ffplay ffmpeg-4.0.2-macos64-shared/bin/ffserver
-# - mv ffmpeg-4.0.2-macos64-shared/bin/* ../bin/
+- mv ffmpeg/bin/* ../bin/
 - wget ${MEDIAINFO}
 - mkdir -p /tmp/.mnt
 - yes Y | hdiutil attach "${MEDIAINFO##*/}" -mountpoint "/tmp/.mnt" -nobrowse
