@@ -25,7 +25,7 @@ environment:
   MEDIAINFO: "https://mediaarea.net/download/binary/mediainfo/21.03/MediaInfo_CLI_21.03_Mac11.dmg"
 
 install:
-  - brew install mpv
+  - brew install wget mpv
   - python3 -m pip install -U pip
   - python3 -m pip install pyinstaller pyopengl PyQt5
   - npm install -g appdmg
