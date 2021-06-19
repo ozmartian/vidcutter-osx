@@ -43,12 +43,12 @@ install:
   - wget https://evermeet.cx/ffmpeg/ffprobe-4.4.zip
   - unzip ffprobe-4.4.zip
   - mv ffprobe ../bin/
-  - wget https://mediaarea.net/download/binary/mediainfo/21.03/MediaInfo_CLI_21.03_Mac11.dmg
-  - mkdir -p /tmp/.mnt
-  - yes Y | hdiutil attach "MediaInfo_CLI_21.03_Mac11.dmg" -mountpoint "/tmp/.mnt" -nobrowse
-  - pkgutil --expand /tmp/.mnt/mediainfo.pkg /tmp/mediainfo.unpkg
-  - cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
-  - mv usr/local/bin/mediainfo ../bin
+  # - wget https://mediaarea.net/download/binary/mediainfo/21.03/MediaInfo_CLI_21.03_Mac11.dmg
+  # - mkdir -p /tmp/.mnt
+  # - yes Y | hdiutil attach "MediaInfo_CLI_21.03_Mac11.dmg" -mountpoint "/tmp/.mnt" -nobrowse
+  # - pkgutil --expand /tmp/.mnt/mediainfo.pkg /tmp/mediainfo.unpkg
+  # - cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
+  # - mv usr/local/bin/mediainfo ../bin
   - cd ../_build/pyinstaller
   - "./build.pyinstaller.osx"
   - appdmg dmg.spec.json VidCutter-6.0.5.1-macOS.dmg
