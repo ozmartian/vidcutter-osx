@@ -1,0 +1,58 @@
+version: 6.0.5.1.{build}
+
+pull_requests:
+  do_not_increment_build_number: true
+
+branches:
+  only:
+  - master
+
+skip_non_tags: false
+
+image: macOS
+
+shallow_clone: true
+
+clone_depth: 1
+
+environment:
+  APPVEYOR_SKIP_FINALIZE_ON_EXIT: false
+  PYTHONUNBUFFERED: 1
+  BUILD_VERSION: "master"
+  RELEASE_VERSION: "6.0.5.1"
+  FFMPEG: "https://evermeet.cx/ffmpeg/ffmpeg-4.4.zip"
+  FFPROBE: "https://evermeet.cx/ffmpeg/ffprobe-4.4.zip"
+  MEDIAINFO: "https://mediaarea.net/download/binary/mediainfo/21.03/MediaInfo_CLI_21.03_Mac11.dmg"
+
+install:
+  - brew install mpv
+  - python3 -m pip install -U pip
+  - python3 -m pip install pyinstaller pyopengl PyQt5
+  - npm install -g appdmg
+  - wget https://github.com/ozmartian/vidcutter/archive/${BUILD_VERSION}.tar.gz -O ./vidcutter.tar.gz
+  - tar -xvf ./vidcutter.tar.gz
+  - mv vidcutter-${BUILD_VERSION}/* .
+  - rm -rf vidcutter.tar.gz vidcutter-${BUILD_VERSION}
+  # - python3 setup.py build_ext -i
+  - python3 -m pip install .
+  - mkdir -p bin
+  - mkdir -p temp && cd temp
+  - wget ${FFMPEG}
+  - unzip "${FFMPEG##*/}"
+  - mv ffmpeg ../bin/
+  - wget ${FFPROBE}
+  - unzip "${FFPROBE##*/}"
+  - mv ffprobe ../bin/
+  - wget ${MEDIAINFO}
+  - mkdir -p /tmp/.mnt
+  - yes Y | hdiutil attach "${MEDIAINFO##*/}" -mountpoint "/tmp/.mnt" -nobrowse
+  - pkgutil --expand /tmp/.mnt/mediainfo.pkg /tmp/mediainfo.unpkg
+  - cat /tmp/mediainfo.unpkg/Payload | gzip -d | cpio -id
+  - mv usr/local/bin/mediainfo ../bin
+  - cd ../_build/pyinstaller
+  - "./build.pyinstaller.osx"
+  - appdmg dmg.spec.json VidCutter-${RELEASE_VERSION}-macOS.dmg
+  - appveyor PushArtifact VidCutter-${RELEASE_VERSION}-macOS.dmg
+  - appveyor exit
+
+test: off
