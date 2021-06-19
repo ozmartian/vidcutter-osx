@@ -33,7 +33,7 @@ install:
   - tar -xvf ./vidcutter.tar.gz
   - mv vidcutter-master/* .
   - rm -rf vidcutter.tar.gz vidcutter-master
-  # - python3 setup.py build_ext -i
+  - python3 setup.py build_ext -i
   - python3 -m pip install .
   - mkdir -p bin
   - mv mediainfo ./bin/
