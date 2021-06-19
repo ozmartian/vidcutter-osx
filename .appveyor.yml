@@ -36,6 +36,7 @@ install:
   # - python3 setup.py build_ext -i
   - python3 -m pip install .
   - mkdir -p bin
+  - mv mediainfo ./bin/
   - mkdir -p temp && cd temp
   - wget https://evermeet.cx/ffmpeg/ffmpeg-4.4.zip
   - unzip ffmpeg-4.4.zip
